@@ -134,7 +134,7 @@
             {{#each myBorrows}}
                 <div class="borrow-card">
                     {{#if this.bookId.coverImage}}
-                        <img src="/uploads/books/{{this.bookId.coverImage}}" class="borrow-cover" alt="Cover">
+                        <img src="{{coverImage}}" class="borrow-cover" alt="Cover">
                     {{else}}
                         <img src="/images/default-cover.png" class="borrow-cover" alt="No Cover">
                     {{/if}}

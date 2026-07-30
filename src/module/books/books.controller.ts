@@ -3,8 +3,7 @@ import { BooksService } from "./books.service";
 import { CreateBooks } from "./dto/create-book.dto";
 import { UpdateBooks } from "./dto/update-books.dto";
 import { FileInterceptor } from "@nestjs/platform-express";
-import { diskStorage } from "multer";
-import { extname } from "path";
+import { memoryStorage } from "multer";
 import type { Response } from "express";
 
 @Controller('books')
@@ -14,15 +13,7 @@ export class BooksController {
     @Post('create')
     @UseInterceptors(
         FileInterceptor('coverImage', {
-            storage: diskStorage({
-                destination: './public/uploads/books',
-                filename: (req, file, callback) => {
-                    
-                    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-                    const ext = extname(file.originalname);
-                    callback(null, `${file.fieldname}-${uniqueSuffix}${ext}`);
-                },
-            }),
+            storage: memoryStorage(),
         }),
     )
     async create(
@@ -36,14 +27,7 @@ export class BooksController {
     @Post('update/:id')
     @UseInterceptors(
         FileInterceptor('coverImage', {
-            storage: diskStorage({
-                destination: './public/uploads/books',
-                filename: (req, file, callback) => {
-                    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-                    const ext = extname(file.originalname);
-                    callback(null, `${file.fieldname}-${uniqueSuffix}${ext}`);
-                },
-            }),
+            storage: memoryStorage(),
         }),
     )
     async update(
