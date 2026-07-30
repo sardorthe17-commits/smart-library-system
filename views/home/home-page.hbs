@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Library - Bosh Sahifa</title>
+    <link rel="stylesheet" href="/css/home-page.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Kartochkadagi rasm va sarlavhaga bosganda chiroyli hover effekti */
+        .book-detail-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        .book-detail-link:hover .title-text {
+            color: #6366f1; /* Sarlavha rangini o'zgartiradi */
+            transition: color 0.2s ease;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="nav-container">
+            <a href="/" class="brand-logo">
+                <i class="fa-solid fa-book-bookmark"></i> Smart<span>Library</span>
+            </a>
+            
+            <div class="search-box">
+                <form action="/" method="GET">
+                    <input type="text" name="search" placeholder="Kitob nomi yoki muallif..." value="{{searchQuery}}">
+                    <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                </form>
+            </div>
+
+            <div class="navigation-actions">
+                <a href="/my-books" class="nav-link-btn admin-go-btn">
+                        <i class="fa-solid fa-toolbox"></i> My Books
+                </a>
+                {{#if (eq user.role "ADMIN")}}
+                    <a href="/admin/dashboard" class="nav-link-btn admin-go-btn">
+                        <i class="fa-solid fa-toolbox"></i> Admin Panel
+                    </a>
+                {{else}}
+                    <a href="/profile" class="nav-link-btn"><i class="fa-solid fa-user"></i> Profilim</a>
+                {{/if}}
+                
+                <a href="/auth/logout" class="logout-btn-direct" title="Chiqish">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        {{#if message}}
+            <div class="message-alert">
+                <div class="alert-content">
+                    <i class="fa-solid fa-circle-info"></i>
+                    <span>{{message}}</span>
+                </div>
+                <button class="close-alert" onclick="this.parentElement.remove()">&times;</button>
+            </div>
+        {{/if}}
+
+        <div class="content-title">
+            <h2><i class="fa-solid fa-layer-group"></i> Kutubxona Kitoblari</h2>
+            {{#if searchQuery}} <span class="search-tag">"{{searchQuery}}" bo'yicha</span> {{/if}}
+        </div>
+
+        <section class="books-showcase">
+            {{#each books}}
+            <div class="library-card">
+                
+                <a href="/books/{{this.id}}" class="book-detail-link">
+                    <div class="card-cover">
+                        {{#if this.coverImage}}
+                            <img src="/uploads/books/{{this.coverImage}}" alt="{{this.title}}">
+                        {{else}}
+                            <img src="/images/default-cover.png" alt="No Cover">
+                        {{/if}}
+                        
+                        <div class="badge-layer">
+                            {{#if (gt this.availableCopies 0)}}
+                                <span class="stock-badge in-stock">Mavjud: {{this.availableCopies}} ta</span>
+                            {{else}}
+                                <span class="stock-badge out-of-stock">Tugagan</span>
+                            {{/if}}
+                        </div>
+                    </div>
+                </a>
+
+                <div class="card-body">
+                    <a href="/books/{{this.id}}" class="book-detail-link">
+                        <h3 class="title-text" title="{{this.title}}">{{this.title}}</h3>
+                    </a>
+                    
+                    <p class="author-text"><i class="fa-solid fa-user-nib"></i> {{this.author}}</p>
+                    
+                    <div class="meta-info">
+                        <span>ISBN: {{this.isbn}}</span>
+                        <span>{{this.publishedYear}}-yil</span>
+                    </div>
+
+                    <div class="card-footer">
+                        {{#if (gt this.availableCopies 0)}}
+                            <form action="/borrows/create/{{this.id}}" method="POST" style="width: 100%;">                                
+                                <button type="submit" class="borrow-action-btn">
+                                    <i class="fa-solid fa-hand-holding-bookmark"></i> Ijaraga olish
+                                </button>
+                            </form>
+                        {{else}}
+                            <button class="borrow-action-btn disabled" disabled>Mavjud emas</button>
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+            {{else}}
+                <div class="empty-state">
+                    <i class="fa-solid fa-box-open"></i>
+                    <p>Kitoblar topilmadi.</p>
+                </div>
+            {{/each}}
+        </section>
+    </main>
+
+</body>
+</html>

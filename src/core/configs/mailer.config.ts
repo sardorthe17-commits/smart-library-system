@@ -1,0 +1,1 @@
+export const mailSecretKeyConfig = (): string => process.env.MAEIL_SIGNET_SECRET as string;

@@ -1,0 +1,138 @@
+/* ==========================================================================
+   ADMIN PANEL MAXSUS PREMIUM CSS
+   ========================================================================== */
+
+:root {
+    --text-dark: #0f172a;
+    --text-slate: #64748b;
+    --border-soft: #e2e8f0;
+    --radius-premium: 16px;
+}
+
+/* 1. STATISTIKA BLOKLARI */
+.admin-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+}
+
+.stat-box-premium {
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: var(--radius-premium);
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    box-shadow: 0 10px 25px -5px rgba(0,0,0,0.02);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.stat-icon-wrapper {
+    width: 54px;
+    height: 54px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+/* Ranglar kombinatsiyasi */
+.text-indigo .stat-icon-wrapper { background: #e0e7ff; color: #4f46e5; }
+.text-emerald .stat-icon-wrapper { background: #d1fae5; color: #10b981; }
+.text-amber .stat-icon-wrapper { background: #fef3c7; color: #d97706; }
+
+.stat-data { display: flex; flex-direction: column; gap: 2px; }
+.stat-title { font-size: 0.82rem; font-weight: 600; color: var(--text-slate); text-transform: uppercase; letter-spacing: 0.5px; }
+.stat-num { font-size: 1.4rem; font-weight: 800; color: var(--text-dark); }
+
+/* 2. ISHCHI HUDUD STRUKTURASI */
+.admin-workspace {
+    display: grid;
+    grid-template-columns: 360px 1fr;
+    gap: 2rem;
+    align-items: flex-start;
+}
+
+.admin-card {
+    background: #fff;
+    border-radius: var(--radius-premium);
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
+    padding: 1.5rem;
+}
+
+.panel-subtitle {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--text-dark);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.panel-subtitle i { color: #6366f1; }
+
+/* 3. FORMA DIZAYNI */
+.modern-panel-form { display: flex; flex-direction: column; gap: 14px; }
+.panel-input-group { display: flex; flex-direction: column; gap: 6px; }
+.panel-input-group label { font-size: 0.8rem; font-weight: 700; color: var(--text-dark); }
+.panel-input-group input {
+    padding: 0.65rem 0.9rem; border: 1px solid var(--border-soft); border-radius: 8px;
+    background: #f8fafc; font-size: 0.9rem; font-weight: 500; outline: none;
+}
+.panel-input-group input:focus { border-color: #6366f1; background: #fff; box-shadow: 0 0 0 3px rgba(99,102,241,0.1); }
+.panel-form-row { display: flex; gap: 12px; }
+.panel-form-row .panel-input-group { flex: 1; }
+.file-upload-wrapper input { padding: 5px; background: #fff; cursor: pointer; }
+
+.panel-submit-btn {
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+    color: white; padding: 0.75rem; border: none; border-radius: 8px;
+    font-weight: 700; font-size: 0.9rem; cursor: pointer; margin-top: 10px;
+}
+.panel-submit-btn:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(99,102,241,0.25); }
+
+/* 4. JADVAL DIZAYNI */
+.table-header-flex {
+    display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: 1.5rem;
+}
+.table-header-flex .panel-subtitle { margin-bottom: 0; }
+.table-search input {
+    padding: 0.5rem 1rem; border: 1px solid var(--border-soft); border-radius: 20px;
+    background: #f1f5f9; font-size: 0.85rem; outline: none; width: 220px;
+}
+.table-search input:focus { background: #fff; border-color: #6366f1; }
+
+.table-responsive-wrapper { overflow-x: auto; }
+.modern-admin-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem; }
+.modern-admin-table th { padding: 12px; background: #f8fafc; color: var(--text-slate); font-weight: 700; border-bottom: 1px solid var(--border-soft); }
+.modern-admin-table td { padding: 12px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; }
+
+.table-cover-preview { width: 42px; height: 56px; border-radius: 6px; overflow: hidden; background: #e2e8f0; box-shadow: 0 4px 8px rgba(0,0,0,0.04); }
+.table-cover-preview img { width: 100%; height: 100%; object-fit: cover; }
+
+.table-book-title { font-weight: 700; color: var(--text-dark); font-size: 0.92rem; }
+.table-book-author { font-size: 0.8rem; color: var(--text-slate); margin-top: 2px; }
+.font-mono { font-family: monospace; font-size: 0.8rem; color: var(--text-slate); }
+
+.table-count-badge { background: #e0f2fe; color: #0369a1; padding: 3px 8px; border-radius: 6px; font-weight: 700; font-size: 0.8rem; }
+
+/* Mini tugmalar (Edit va Delete) */
+.table-row-actions { display: flex; gap: 6px; }
+.action-mini-btn {
+    width: 32px; height: 32px; border: none; border-radius: 6px;
+    display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 0.85rem;
+}
+.action-mini-btn.edit { background: #fef3c7; color: #d97706; }
+.action-mini-btn.edit:hover { background: #fde68a; }
+.action-mini-btn.delete { background: #fee2e2; color: #ef4444; }
+.action-mini-btn.delete:hover { background: #fca5a5; }
+
+.table-empty-row { text-align: center; padding: 3rem 0 !important; color: var(--text-slate); font-weight: 500; }
+
+/* Planşetlar uchun moslashuvchanlik */
+@media(max-width: 992px) {
+    .admin-workspace { grid-template-columns: 1fr; }
+}

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{book.title}} - Smart Library</title>
+    <link rel="stylesheet" href="/css/home-page.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .book-info-container {
+            display: flex;
+            gap: 40px;
+            margin-top: 50px;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        .book-cover img {
+            width: 300px;
+            height: 450px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+        .book-details-content {
+            flex: 1;
+        }
+        .book-title {
+            font-size: 2.2rem;
+            color: #1e293b;
+            margin-bottom: 10px;
+        }
+        .book-author {
+            font-size: 1.2rem;
+            color: #6366f1;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        .book-desc {
+            font-size: 1rem;
+            color: #64748b;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        .book-meta-info {
+            margin-bottom: 30px;
+            font-size: 0.95rem;
+        }
+        .meta-item {
+            margin-bottom: 8px;
+            color: #334155;
+        }
+        .btn-borrow {
+            background-color: #6366f1;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: background 0.2s;
+        }
+        .btn-borrow:hover {
+            background-color: #4f46e5;
+        }
+    </style>
+</head>
+<body>
+
+    <main class="container">
+        <a href="/" class="back-link"><i class="fa-solid fa-arrow-left"></i> Orqaga qaytish</a>
+    <form action="/borrows/create/{{book._id}}" method="POST">
+
+        <div class="book-info-container">
+            <div class="book-cover">
+                {{#if book.coverImage}}
+                    <img src="/uploads/books/{{book.coverImage}}" alt="{{book.title}}">
+                {{else}}
+                    <img src="/images/default-book.png" alt="Default Cover">
+                {{/if}}
+            </div>
+
+            <div class="book-details-content">
+                <h1 class="book-title">{{book.title}}</h1>
+                <div class="book-author">Muallif: {{book.author}}</div>
+                
+                <hr style="border: 0; border-top: 1px solid #e2e8f0; margin-bottom: 20px;">
+
+                <p class="book-desc">
+                    {{#if book.description}}
+                        {{book.description}}
+                    {{else}}
+                        Ushbu kitob uchun qisqacha mazmun yoki tavsif yozilmagan.
+                    {{/if}}
+                </p>
+
+                <div class="book-meta-info">
+                    <div class="meta-item"><strong>Janr:</strong> {{book.category}}</div>
+                    <div class="meta-item"><strong>Soni:</strong> {{book.availableCopies}} ta qoldi</div>
+                    <div class="meta-item"><strong>Yili:</strong> {{book.publishedYear}}</div>
+                </div>
+
+                    <button type="submit" class="btn-borrow">
+                        <i class="fa-solid fa-bookmark"></i> Kitobni olish (Band qilish)
+                    </button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>

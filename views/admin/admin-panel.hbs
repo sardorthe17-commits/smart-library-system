@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Smart Library</title>
+    <link rel="stylesheet" href="/css/home-page.css">
+    <link rel="stylesheet" href="/css/admin-panel.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="nav-container">
+            <a href="/" class="brand-logo">
+                <i class="fa-solid fa-toolbox"></i> Admin<span>Dashboard</span>
+            </a>
+            
+            <div class="navigation-actions">
+                <a href="/" class="nav-link-btn"><i class="fa-solid fa-house"></i> Bosh sahifaga qaytish</a>
+                <a href="/admin/users" class="nav-link-btn"><i class="fa-solid fa-users"></i> Foydalanuvchilar</a>
+                <a href="/admin/borrows" class="panel-submit-btn" style="text-decoration: none; display: inline-inline-block; margin-bottom: 15px; background: #6366f1;">
+                    <i class="fa-solid fa-book-reader"></i> Ijaralar nazorati sahifasiga o'tish
+                </a>
+                <a href="/auth/logout" class="logout-btn-direct" title="Chiqish"><i class="fa-solid fa-right-from-bracket"></i></a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        {{#if message}}
+            <div class="message-alert">
+                <div class="alert-content">
+                    <i class="fa-solid fa-circle-info"></i>
+                    <span>{{message}}</span>
+                </div>
+                <button class="close-alert" onclick="this.parentElement.remove()">&times;</button>
+            </div>
+        {{/if}}
+
+        <section class="admin-stats-grid">
+            <div class="stat-box-premium text-indigo">
+                <div class="stat-icon-wrapper"><i class="fa-solid fa-book"></i></div>
+                <div class="stat-data">
+                    <span class="stat-title">Umumiy kitoblar</span>
+                    <span class="stat-num">{{stats.totalBooks}} ta</span>
+                </div>
+            </div>
+            <div class="stat-box-premium text-emerald">
+                <div class="stat-icon-wrapper"><i class="fa-solid fa-hand-holding-hand"></i></div>
+                <div class="stat-data">
+                    <span class="stat-title">Ijaradagi kitoblar</span>
+                    <span class="stat-num">{{stats.borrowedBooks}} ta</span>
+                </div>
+            </div>
+            <div class="stat-box-premium text-amber">
+                <div class="stat-icon-wrapper"><i class="fa-solid fa-users"></i></div>
+                <div class="stat-data">
+                    <span class="stat-title">Jami kitobxonlar</span>
+                    <span class="stat-num">{{stats.totalUsers}} nafar</span>
+                </div>
+            </div>
+        </section>
+
+        <div class="admin-workspace">
+            
+            <div class="admin-card panel-form-area">
+                <h3 class="panel-subtitle"><i class="fa-solid fa-circle-plus"></i> Yangi kitob qo'shish</h3>
+                
+                <form action="/books/create" method="POST" enctype="multipart/form-data" class="modern-panel-form">
+                    <div class="panel-input-group">
+                        <label>Kitob nomi</label>
+                        <input type="text" name="title" required placeholder="Masalan: Kecha va Kunduz">
+                    </div>
+                    
+                    <div class="panel-input-group">
+                        <label>Muallif</label>
+                        <input type="text" name="author" required placeholder="Abdulhamid Cho'lpon">
+                    </div>
+                    
+                    <div class="panel-input-group">
+                        <label>ISBN kodi</label>
+                        <input type="text" name="isbn" required placeholder="978-9943-12-345-6">
+                    </div>
+                    
+                    <div class="panel-form-row">
+                        <div class="panel-input-group">
+                            <label>Nashr yili</label>
+                            <input type="number" name="publishedYear" required placeholder="2019">
+                        </div>
+                        <div class="panel-input-group">
+                            <label>Nusxa (Soni)</label>
+                            <input type="number" name="availableCopies" required min="1" placeholder="5">
+                        </div>
+                    </div>
+                    
+                    <div class="panel-input-group file-upload-wrapper">
+                        <label>Kitob muqovasi (Rasm)</label>
+                        <input type="file" name="coverImage" accept="image/*">
+                    </div>
+                    
+                    <button type="submit" class="panel-submit-btn">Katalogga qo'shish</button>
+                </form>
+            </div>
+
+            <div class="admin-card panel-table-area">
+                <div class="table-header-flex">
+                    <h3 class="panel-subtitle"><i class="fa-solid fa-table-list"></i> Mavjud kitoblar katalogi</h3>
+                    
+                    <div class="table-search">
+                        <form action="/admin/dashboard" method="GET">
+                            <input type="text" name="search" placeholder="Katalogdan qidirish..." value="{{searchQuery}}">
+                        </form>
+                    </div>
+                </div>
+
+                <div class="table-responsive-wrapper">
+                    <table class="modern-admin-table">
+                        <thead>
+                            <tr>
+                                <th>Muqova</th>
+                                <th>Kitob nomi / Muallif</th>
+                                <th>ISBN</th>
+                                <th>Yil</th>
+                                <th>Soni</th>
+                                <th style="text-align: center;">Amallar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each books}}
+                            <tr>
+                                <td>
+                                    <div class="table-cover-preview">
+                                        {{#if this.coverImage}}
+                                            <img src="/uploads/books/{{this.coverImage}}" alt="Cover">
+                                        {{else}}
+                                            <img src="/images/default-cover.png" alt="No Cover">
+                                        {{/if}}
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="table-book-title">{{this.title}}</div>
+                                    <div class="table-book-author">{{this.author}}</div>
+                                </td>
+                                <td class="font-mono">{{this.isbn}}</td>
+                                <td>{{this.publishedYear}}</td>
+                                <td>
+                                    <span class="table-count-badge">{{this.availableCopies}} ta</span>
+                                </td>
+                                <td>
+                                    <div class="table-row-actions">
+                                        <button class="action-mini-btn edit" onclick="openEdit('{{this.id}}')" title="Tahrirlash">
+                                            <i class="fa-solid fa-pen"></i>
+                                        </button>
+                                        <button class="action-mini-btn delete" onclick="deleteItem('{{this.id}}')" title="O'chirish">
+                                            <i class="fa-solid fa-trash-can"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            {{else}}
+                            <tr>
+                                <td colspan="6" class="table-empty-row">Katalogda kitoblar mavjud emas yoki qidiruv bo'yicha hech narsa topilmadi.</td>
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        function deleteItem(id) {
+            if(confirm("Ushbu kitobni ma'lumotlar bazasidan butunlay o'chirmoqchimisiz?")) {
+                window.location.href = `/books/delete/${id}`;
+            }
+        }
+
+        function openEdit(id) {
+            window.location.href = `/admin/books/edit/${id}`;
+        }
+    </script>
+</body>
+</html>

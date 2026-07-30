@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ijaralar Nazorati - Admin Panel</title>
+    <link rel="stylesheet" href="/css/home-page.css">
+    <link rel="stylesheet" href="/css/admin-panel.css">
+    <link rel="stylesheet" href="/css/borrowe-panel.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="nav-container">
+            <a href="/" class="brand-logo">
+                <i class="fa-solid fa-gauge-high"></i> Admin<span>Panel</span>
+            </a>
+            
+            <div class="navigation-actions">
+                <a href="/admin/dashboard" class="nav-link-btn"><i class="fa-solid fa-chart-pie"></i> Dashboard</a>
+                <a href="/" class="nav-link-btn"><i class="fa-solid fa-house"></i> Bosh sahifa</a>
+                <a href="/auth/logout" class="logout-btn-direct"><i class="fa-solid fa-right-from-bracket"></i></a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        
+        {{#if message}}
+            <div class="alert-message success" style="margin-bottom: 2rem;">
+                <i class="fa-solid fa-circle-check"></i> {{message}}
+            </div>
+        {{/if}}
+
+        <div class="admin-card">
+            <h3 class="panel-subtitle"><i class="fa-solid fa-list-check"></i> Kitob ijaralari umumiy nazorati</h3>
+            
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Kitobxon (Foydalanuvchi)</th>
+                        <th>Muqova</th>
+                        <th>Kitob nomi / Muallif</th>
+                        <th>Ijaraga olingan vaqt</th>
+                        <th>Amallar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each allBorrows}}
+                        <tr>
+                            <td>
+                                <div class="user-info-cell">
+                                    <span class="name">{{this.userId.fullName}}</span>
+                                    <span class="role-badge">{{this.userId.role}}</span>
+                                </div>
+                            </td>
+                            
+                            <td>
+                                {{#if this.bookId.coverImage}}
+                                    <img src="/uploads/books/{{this.bookId.coverImage}}" alt="Cover">
+                                {{else}}
+                                    <img src="/images/default-cover.png" alt="No Cover">
+                                {{/if}}
+                            </td>
+                            
+                            <td>
+                                <div style="font-weight: 700; color: #1e293b; font-size: 1rem;">{{this.bookId.title}}</div>
+                                <div style="font-size: 0.85rem; color: #64748b; margin-top: 2px;">{{this.bookId.author}}</div>
+                            </td>
+                            
+                            <td>
+                                <span class="date-cell font-mono">{{this.createdAt}}</span> 
+                            </td>
+                            
+                            <td>
+                                <a href="/borrows/delete/{{this.id}}" class="action-btn delete-btn" onclick="return confirm('Ushbu kitob tizimda qaytarildi deb hisoblansinsinmi?')">
+                                    <i class="fa-solid fa-arrow-rotate-left"></i> Qaytarilmagan
+                                </a>
+                            </td>
+                        </tr>
+                    {{else}}
+                        <tr>
+                            <td colspan="5" style="text-align: center; color: #64748b; padding: 3rem 0;">
+                                <i class="fa-solid fa-folder-open" style="font-size: 2rem; color: #cbd5e1; margin-bottom: 0.5rem; display:block;"></i>
+                                Ayni damda hech kim kitob ijaraga olmagan.
+                            </td>
+                        </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+
+    </main>
+
+</body>
+</html>

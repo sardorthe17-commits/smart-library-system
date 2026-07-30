@@ -1,0 +1,94 @@
+    .admin-table img {
+        width: 45px;
+        height: 65px;
+        object-fit: cover;
+        border-radius: 6px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .user-info-cell {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .user-info-cell .name {
+        font-weight: 700;
+        color: #0f172a;
+    }
+
+    .user-info-cell .role-badge {
+        font-size: 0.75rem;
+        color: #6366f1;
+        background: #e0e7ff;
+        padding: 2px 6px;
+        border-radius: 4px;
+        width: fit-content;
+        margin-top: 4px;
+    }
+
+    /* Jadvalning umumiy strukturasini to'g'rilash */
+    .admin-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0 12px;
+        /* Qatorlar orasini ochadi */
+        margin-top: 1rem;
+    }
+
+    .admin-table th {
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: #64748b;
+        padding: 12px 20px;
+        /* Sarlavhalarga joy ochamiz */
+        text-align: left;
+    }
+
+    .admin-table td {
+        padding: 16px 20px;
+        /* Elementlar orasiga nafas olishga joy (gap) beradi */
+        background-color: #f8fafc;
+        /* Har bir qator alohida blok bo'lib ko'rinadi */
+        vertical-align: middle;
+    }
+
+    /* Qatorlarning chetini yumshatish (Yopishib ketmasligi uchun) */
+    .admin-table tbody tr td:first-child {
+        border-top-left-radius: 12px;
+        border-bottom-left-radius: 12px;
+    }
+
+    .admin-table tbody tr td:last-child {
+        border-top-right-radius: 12px;
+        border-bottom-right-radius: 12px;
+        text-align: right;
+        /* Amallar tugmasini o'ngga suradi */
+    }
+
+    /* Sanani tartibga solish */
+    .date-cell {
+        max-width: 200px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline-block;
+        color: #475569;
+    }
+
+    /* Qaytarildi tugmasini chiroyli qilish */
+    .action-btn.delete-btn {
+        background: #e0f2fe;
+        color: #0369a1;
+        padding: 8px 16px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 0.85rem;
+        transition: all 0.2s;
+    }
+
+    .action-btn.delete-btn:hover {
+        background: #bae6fd;
+        color: #0369a1;
+        transform: translateY(-1px);
+    }

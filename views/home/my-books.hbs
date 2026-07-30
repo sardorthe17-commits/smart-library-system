@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mening Kitoblarim - Smart Library</title>
+    <link rel="stylesheet" href="/css/home-page.css">
+    <link rel="stylesheet" href="/css/admin-panel.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .user-welcome-card {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 25px rgba(79, 70, 229, 0.15);
+        }
+        .user-welcome-card h2 { font-size: 1.8rem; font-weight: 800; margin-bottom: 0.5rem; }
+        .user-welcome-card p { opacity: 0.9; font-size: 0.95rem; }
+        
+        .my-books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        .borrow-card {
+            background: #fff;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+            padding: 1.2rem;
+            display: flex;
+            gap: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .borrow-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+        }
+        .borrow-cover {
+            width: 90px;
+            height: 130px;
+            border-radius: 8px;
+            object-fit: cover;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        }
+        .borrow-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex: 1;
+        }
+        .borrow-title { font-size: 1rem; font-weight: 800; color: #0f172a; line-height: 1.3; }
+        .borrow-author { font-size: 0.82rem; color: #64748b; margin-top: 2px; }
+        
+        .borrow-dates {
+            font-size: 0.78rem;
+            color: #475569;
+            background: #f8fafc;
+            padding: 6px 10px;
+            border-radius: 8px;
+            margin-top: 8px;
+        }
+        .borrow-dates div { margin-bottom: 2px; }
+        .borrow-dates i { color: #6366f1; width: 14px; }
+
+        .return-btn {
+            background: #fee2e2;
+            color: #ef4444;
+            border: none;
+            padding: 0.5rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+            margin-top: 10px;
+            transition: background 0.2s;
+        }
+        .return-btn:hover { background: #fca5a5; }
+        
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 4rem 2rem;
+            background: #fff;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+            color: #64748b;
+        }
+        .empty-state i { font-size: 3rem; color: #cbd5e1; margin-bottom: 1rem; }
+    </style>
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="nav-container">
+            <a href="/" class="brand-logo">
+                <i class="fa-solid fa-book-bookmark"></i> Smart<span>Library</span>
+            </a>
+            
+            <div class="navigation-actions">
+                <a href="/" class="nav-link-btn"><i class="fa-solid fa-house"></i> Bosh sahifa</a>
+                {{#if (eq user.role "ADMIN")}}
+                    <a href="/admin/dashboard" class="nav-link-btn"><i class="fa-solid fa-gauge"></i> Dashboard</a>
+                {{/if}}
+                <a href="/auth/logout" class="logout-btn-direct"><i class="fa-solid fa-right-from-bracket"></i></a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        {{#if message}}
+            <div class="message-alert">
+                <div class="alert-content">
+                    <i class="fa-solid fa-circle-info"></i>
+                    <span>{{message}}</span>
+                </div>
+                <button class="close-alert" onclick="this.parentElement.remove()">&times;</button>
+            </div>
+        {{/if}}
+        <div class="user-welcome-card">
+            <h2>Salom, {{user.fullName}}! 👋</h2>
+            <p>Xush kelibsiz! Bu yerda siz ijaraga olgan va ayni damda mutolaa qilayotgan kitoblaringiz ro'yxati joylashgan.</p>
+        </div>
+
+        <h3 class="panel-subtitle"><i class="fa-solid fa-bookmark"></i> Mutolaa qilinayotgan kitoblar</h3>
+
+        <div class="my-books-grid">
+            {{#each myBorrows}}
+                <div class="borrow-card">
+                    {{#if this.bookId.coverImage}}
+                        <img src="/uploads/books/{{this.bookId.coverImage}}" class="borrow-cover" alt="Cover">
+                    {{else}}
+                        <img src="/images/default-cover.png" class="borrow-cover" alt="No Cover">
+                    {{/if}}
+
+                    <div class="borrow-info">
+                        <div>
+                            <div class="borrow-title">{{this.bookId.title}}</div>
+                            <div class="borrow-author">{{this.bookId.author}}</div>
+                            
+                            <div class="borrow-dates">
+                                <div><i class="fa-regular fa-calendar-check"></i> Olingan: <span class="font-mono">{{this.createdAt}}</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {{else}}
+                <div class="empty-state">
+                    <i class="fa-solid fa-book-open"></i>
+                    <h3>Sizda hali ijaraga olingan kitoblar yo'q</h3>
+                    <p style="margin-top: 5px;">Bosh sahifaga o'tib, o'zingizga yoqqan kitobni ijaraga oling.</p>
+                    <a href="/" class="panel-submit-btn" style="display: inline-block; margin-top: 15px; padding: 0.6rem 1.5rem; text-decoration: none;">Kitob qidirish</a>
+                </div>
+            {{/each}}
+        </div>
+
+    </main>
+
+</body>
+</html>

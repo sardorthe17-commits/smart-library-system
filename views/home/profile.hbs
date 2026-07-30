@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mening Profilim - Smart Library</title>
+    <link rel="stylesheet" href="/css/home-page.css">
+    <link rel="stylesheet" href="/css/admin-panel.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .profile-layout {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+            align-items: start;
+        }
+        .profile-avatar-card {
+            background: #fff;
+            padding: 2rem 1.5rem;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+        }
+        .avatar-circle, .avatar-image {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            margin: 0 auto 1.5rem auto;
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.2);
+        }
+        .avatar-circle {
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            color: white;
+            font-size: 3rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-transform: uppercase;
+        }
+        
+        .avatar-image {
+            object-fit: cover;
+            border: 3px solid #6366f1;
+        }
+        .profile-name { font-size: 1.3rem; font-weight: 800; color: #0f172a; }
+        .profile-role {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            background: #e0e7ff;
+            color: #4f46e5;
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin-top: 0.5rem;
+            text-transform: uppercase;
+        }
+        .file-custom-input {
+            border: 1px dashed #cbd5e1;
+            padding: 10px;
+            border-radius: 8px;
+            background: #f8fafc;
+            cursor: pointer;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="nav-container">
+            <a href="/" class="brand-logo">
+                <i class="fa-solid fa-user-gear"></i> Shaxsiy<span>Kabinet</span>
+            </a>
+            <div class="navigation-actions">
+                <a href="/" class="nav-link-btn"><i class="fa-solid fa-house"></i> Bosh sahifa</a>
+                <a href="/my-books" class="nav-link-btn"><i class="fa-solid fa-book-bookmark"></i> Mening kitoblarim</a>
+                <a href="/auth/logout" class="logout-btn-direct"><i class="fa-solid fa-right-from-bracket"></i></a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        {{#if message}}
+            <div class="alert-message success" style="margin-bottom: 1.5rem;">
+                <i class="fa-solid fa-circle-check"></i> {{message}}
+            </div>
+        {{/if}}
+        {{#if error}}
+            <div class="alert-message error" style="margin-bottom: 1.5rem; background: #fee2e2; color: #ef4444;">
+                <i class="fa-solid fa-circle-exclamation"></i> {{error}}
+            </div>
+        {{/if}}
+        
+        <div class="profile-layout">
+            
+            <div class="profile-avatar-card">
+                {{#if user.image_url}}
+                    <img src="/uploads/users/{{user.image_url}}" class="avatar-image" alt="Avatar">
+                {{else}}
+                    <div class="avatar-circle">U</div>
+                {{/if}}
+                
+                <h3 class="profile-name">{{user.fullName}}</h3>
+                <span class="profile-role">{{user.role}}</span>
+                <p style="font-size: 0.85rem; color: #64748b; margin-top: 10px;">{{user.email}}</p>
+            </div>
+
+            <div class="admin-card" style="margin: 0;">
+                <h3 class="panel-subtitle"><i class="fa-solid fa-user-pen"></i> Profil ma'lumotlarini tahrirlash</h3>
+                
+                <form action="/users/profile/update" method="POST" enctype="multipart/form-data" class="modern-panel-form">
+                    
+                    <div class="panel-input-group">
+                        <label>To'liq ism-sharifingiz</label>
+                        <input type="text" name="fullName" value="{{user.fullName}}" required placeholder="Ismingizni kiriting">
+                    </div>
+                    
+                    <div class="panel-input-group">
+                        <label>Profil rasmi (Avatar)</label>
+                        <input type="file" name="image" accept="image/*" class="file-custom-input">
+                        <small style="color: #94a3b8; display:block; margin-top:5px;">Faqat rasmlar (.jpg, .png, .jpeg) qabul qilinadi.</small>
+                    </div>
+                    
+                    <div style="margin-top: 2rem;">
+                        <button type="submit" class="panel-submit-btn" style="margin: 0; width: auto; padding: 0.75rem 2rem;">
+                            <i class="fa-solid fa-floppy-disk"></i> O'zgarishlarni saqlash
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </main>
+
+</body>
+</html>

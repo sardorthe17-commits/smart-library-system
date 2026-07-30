@@ -1,0 +1,1 @@
+export const telegrafConfig = (): string => process.env.TELEGRAM_BOT_SECRET_KEY as string
