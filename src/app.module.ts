@@ -34,8 +34,11 @@ const localSession = new LocalSession({ database: 'session_db.json' });
         token: configService.get<string>('TELEGRAM_BOT_SECRET_KEY') || '',
         middlewares: [localSession.middleware()],
         launchOptions: {
-        dropPendingUpdates: true,
-      },
+          webhook: {
+            domain: configService.get<string>('RENDER_EXTERNAL_URL') || '',
+            path: '/telegram-webhook',
+          },
+        },
       }),
       inject: [ConfigService],
     }),

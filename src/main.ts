@@ -45,4 +45,7 @@ async function bootstrap() {
     console.log(`localhost:${port}`);
   });
 }
+process.on('unhandledRejection', (reason) => {
+  console.error('⚠️ Unhandled Rejection (ilova davom etmoqda):', reason);
+});
 bootstrap();
