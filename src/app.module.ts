@@ -33,6 +33,9 @@ const localSession = new LocalSession({ database: 'session_db.json' });
       useFactory: async (configService: ConfigService) => ({
         token: configService.get<string>('TELEGRAM_BOT_SECRET_KEY') || '',
         middlewares: [localSession.middleware()],
+        launchOptions: {
+        dropPendingUpdates: true,
+      },
       }),
       inject: [ConfigService],
     }),

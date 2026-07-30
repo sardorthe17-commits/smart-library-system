@@ -11,6 +11,8 @@ import { getPort } from './core/configs/port.config';
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
+  app.enableShutdownHooks();
+
   // HBS sozlash
   app.useStaticAssets(join(__dirname, '..', 'public')); 
 
