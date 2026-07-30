@@ -5,7 +5,6 @@ export class UpdateBooks{
 
     @IsOptional()
     @IsString()
-    @MinLength(5)
     title?:string
     
     @IsOptional()
